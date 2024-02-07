@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+</head>
+<body>
+
+<h1>Welcome to Admin Panel</h1>
+
+<div id="examsContainer">
+    <h2>Exams</h2>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Title</th>
+            <th>Duration</th>
+            <th>Price</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody id="examsList"></tbody>
+    </table>
+</div>
+
+<div id="schoolsContainer">
+    <h2>Schools</h2>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>City</th>
+        </tr>
+        </thead>
+        <tbody id="schoolsList"></tbody>
+    </table>
+</div>
+
+<script>
+    // Fonksiyon: Verileri tabloya ekle
+    function populateTable(data, tableBody) {
+        // Verileri tabloya ekle
+        data.forEach(item => {
+            const row = tableBody.insertRow();
+            Object.values(item).forEach(value => {
+                const cell = row.insertCell();
+                cell.textContent = value;
+            });
+        });
+    }
+
+    // AJAX ile Exams verilerini al ve göster
+    fetch('exams') // Burada localhost:8080 kısmını çıkardım
+        .then(response => response.json())
+        .then(data => {
+            const examsList = document.getElementById('examsList');
+            // Tabloyu temizle
+            examsList.innerHTML = '';
+            populateTable(data, examsList);
+        })
+        .catch(error => console.error('Error fetching exams:', error));
+
+    // AJAX ile Schools verilerini al ve göster
+    fetch('schools') // Burada localhost:8080 kısmını çıkardım
+        .then(response => response.json())
+        .then(data => {
+            const schoolsList = document.getElementById('schoolsList');
+            // Tabloyu temizle
+            schoolsList.innerHTML = '';
+            populateTable(data, schoolsList);
+        })
+        .catch(error => console.error('Error fetching schools:', error));
+</script>
+
+
+</body>
+</html>
